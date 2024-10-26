@@ -43,7 +43,7 @@ backup_file_path = backup_dir / file_path.name
 # Step 1: Create a backup of the existing JSON file
 try:
     shutil.copy(file_path, backup_file_path)
-    print(f"Backup of the JSON file has been created at {backup_file_path}")
+    print(f"✅ Backup created at {backup_file_path}")
 except Exception as e:
     print(f"Error creating backup: {e}")
     raise
@@ -84,7 +84,7 @@ else:
 try:
     with open(file_path, 'w', encoding='utf-8') as file:
         json.dump(data, file, indent=2, ensure_ascii=False)  # ensure_ascii=False to preserve special characters
-    print(f"Updated JSON data has been saved to {file_path}")
+    print(f"✅ Updated JSON saved to {file_path}")
 except Exception as e:
     print(f"Error writing to JSON file: {e}")
     raise
