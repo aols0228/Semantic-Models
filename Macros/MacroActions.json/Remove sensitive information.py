@@ -24,7 +24,7 @@ backup_path = backup_dir / file_path.name
 # Create backup
 backup_dir.mkdir(parents=True, exist_ok=True)
 shutil.copy(file_path, backup_path)
-print(f"✅ Backup created at {backup_path}")
+print(f"✅ Backup JSON created at {backup_path}")
 
 # Load JSON data
 with open(file_path, 'r', encoding='utf-8-sig') as f:

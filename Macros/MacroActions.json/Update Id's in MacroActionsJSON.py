@@ -43,7 +43,7 @@ backup_file_path = backup_dir / file_path.name
 # Step 1: Create a backup of the existing JSON file
 try:
     shutil.copy(file_path, backup_file_path)
-    print(f"✅ Backup created at {backup_file_path}")
+    print(f"✅ Backup JSON created at {backup_file_path}")
 except Exception as e:
     print(f"Error creating backup: {e}")
     raise
