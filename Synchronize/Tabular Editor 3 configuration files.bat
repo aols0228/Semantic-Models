@@ -19,7 +19,7 @@ echo Copy from: %ModelAppDataDir%
 REM -----Definition of where to copy to-----
 REM Define the directory of Tabular Editor 3 configuration files
 set "tabularEditor3Dir=C:\Users\%USERNAME%\AppData\Local\TabularEditor3"
-echo Copy to: %tabularEditor3Dir%
+echo Tabular Editor 3 directory: %tabularEditor3Dir%
 echo.
 
 REM -----The copy action phase-----
