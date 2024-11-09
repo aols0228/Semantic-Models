@@ -4,10 +4,10 @@
 ## Pythonscript that assigns new numerical id's to MacroActions.json
 ## MacroActions.json is the file that programs the model developers local macros through %localappdata%\TabularEditor3
 ## The reason for the script is due to the fact that I as a macro developer sometimes changes the order of the macros in the json-script itself.
-## I then need to enumerate all the macros from 1...n again.
+## This requires re-enumerating all macros from 1...n.
+## The script dynamically checks if the macros are either in a dictionary or in a list, and proceeds with the first list in the MacroActions dictionary using next(...).
+## Because of this first item behaviour, we do not need to specify the key.
 ## This is tedious given that a macro could be moved from the end to the beginning and a hundred macros then need to have their Id's reassigned.
-## Please note that the MacroActions.json have multiple lists within a dictionary with the key 'Actions'.
-## Therefore we dynamically check if the macros are either in a list or in a dictionary.
 ## -------------------------
 ## The file path of the MacroActions.json script itself is dynamic according to the location of this script.
 ## This entails that you need to define the dynamic file path.
@@ -40,7 +40,10 @@ file_path = parental_directory / 'Configuration Files' / 'MacroActions.json'
 backup_dir = Path(r'C:\Temp')
 backup_file_path = backup_dir / file_path.name
 
-# Step 1: Create a backup of the existing JSON file
+# Step 1: Create the backup directory if it doesn't exist
+backup_dir.mkdir(parents=True, exist_ok=True)
+
+# Step 2: Create a backup of the existing JSON file
 try:
     shutil.copy(file_path, backup_file_path)
     print(f"✅ Backup JSON created at {backup_file_path}")
@@ -48,7 +51,7 @@ except Exception as e:
     print(f"Error creating backup: {e}")
     raise
 
-# Step 2: Load the JSON data from the file
+# Step 3: Load the JSON data from the file
 try:
     with open(file_path, 'r', encoding='utf-8-sig') as file:
         data = json.load(file)
@@ -60,25 +63,21 @@ except Exception as e:
     print(f"Unexpected error: {e}")
     raise
 
-# Step 3: Check if data is a list or a dictionary containing a list
-if isinstance(data, list):
-    # Step 4: Assign incremental IDs to list elements
-    for index, item in enumerate(data):
-        item['Id'] = index + 1
-
-elif isinstance(data, dict):
-    # Step 4: Check if the dictionary contains a key with a list
-    for key, value in data.items():
-        if isinstance(value, list):
-            # Step 5: Assign incremental IDs to list elements
-            for index, item in enumerate(value):
-                item['Id'] = index + 1
-            break
-    else:
+# Step 4: Identify the list to be processed
+# If data is a dictionary, search for the first list within its values
+if isinstance(data, dict):
+    list_to_enumerate = next((value for value in data.values() if isinstance(value, list)), None)
+    if list_to_enumerate is None:
         raise ValueError("No list found inside the dictionary.")
-
+# If data is already a list, use it directly
+elif isinstance(data, list):
+    list_to_enumerate = data
 else:
-    raise ValueError("Expected the JSON file to contain a list or a dictionary with a list.")
+    raise ValueError("Expected the JSON file to contain a dictionary with a list or a list.")
+
+# Step 5: Assign incremental IDs to elements in the list
+for index, item in enumerate(list_to_enumerate):
+    item['Id'] = index + 1
 
 # Step 6: Write the updated data back to the same JSON file
 try:

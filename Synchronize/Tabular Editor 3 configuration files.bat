@@ -2,7 +2,7 @@
 chcp 65001 > nul
 echo:
 
-echo Deletes and copies Tabular Editor 3 configuration files via parental folder
+echo Deletes and copies Tabular Editor 3 configuration files
 echo.
 
 
@@ -13,13 +13,14 @@ REM Use the for loop to set the parental directory with a backslash in the end
 for %%A in ("%currentDir%..\") do set "parentalDir=%%~dpA"
 REM Determine the DAP model configuration files directory
 set "ModelAppDataDir=%parentalDir%Configuration Files\"
-echo %ModelAppDataDir%
-echo.
+echo Copy from: %ModelAppDataDir%
+
 
 REM -----Definition of where to copy to-----
 REM Define the directory of Tabular Editor 3 configuration files
 set "tabularEditor3Dir=C:\Users\%USERNAME%\AppData\Local\TabularEditor3"
-
+echo Tabular Editor 3 directory: %tabularEditor3Dir%
+echo.
 
 REM -----The copy action phase-----
 REM Call the Git operations script
