@@ -26,8 +26,8 @@ REM pause
 echo.
 
 REM Determine the DAP model configuration files directory path
-set "ModelAppDataDir=%parentalDir%Model\Konfigurationsfiler"
-
+set "ModelAppDataDir=%parentalDir%Model\Configuration Files"
+echo Copy from: %ModelAppDataDir%
 
 REM -----Definition of where to copy to-----
 REM Define how to extract your user name based on your admin user name
