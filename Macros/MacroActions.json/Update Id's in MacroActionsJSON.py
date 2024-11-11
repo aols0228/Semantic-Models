@@ -66,9 +66,14 @@ except Exception as e:
 # Step 4: Identify the list to be processed
 # If data is a dictionary, search for the first list within its values
 if isinstance(data, dict):
-    list_to_enumerate = next((value for value in data.values() if isinstance(value, list)), None)
-    if list_to_enumerate is None:
-        raise ValueError("No list found inside the dictionary.")
+    list_to_enumerate = next(
+        (
+            value 
+            for value in data.values() 
+            if isinstance(value, list) # we use this to ensure that we are looking at lists, not strings or dictionaries
+        ), 
+        ValueError("No list found inside the dictionary.")
+    )
 # If data is already a list, use it directly
 elif isinstance(data, list):
     list_to_enumerate = data
